@@ -82,7 +82,7 @@ print(len(set(deduces_ids)))
 
 print(f"already_duduced numbers:\t{len(deduces_ids)}")
 
-print(list(deduces.values())[7])
+print(list(deduces.values())[1])
 
 print(list(user_traits.values())[1])
 
@@ -135,20 +135,26 @@ def main(args):
     
             profile = ""
             personality = ""
-            try:
-                if sample["rmr"]:
-                    profile = user_profiles[user]["profile"]
-                if sample["ept"]:
-                    if args.psit_mode:
-                        # personality = personality_embedding_tokens
-                        personality = interpreted_summaries[user]["result"]
-                    else:
-                        personality = user_traits[user]["trait"]
-            except Exception as e:
-                print(e)
-                failed_ids.append(sample["id"])
-                failed_samples.append(sample)
-                
+            
+            if sample["rmr"]:
+                profile = user_profiles[user]["profile"]
+            if sample["ept"]:
+                if args.psit_mode:
+                    # personality = personality_embedding_tokens
+                    personality = interpreted_summaries[user]["result"]
+                else:
+                    personality = user_traits[user]["trait"]
+            
+            potential_knowledge = knowledge["DetailedKnowledge"]
+            
+            # Ablation Study
+            if args.profile_ablation:
+                resume = ""
+            if args.personality_ablation:
+                personality = ""
+            if args.potential_ablation:
+                potential_knowledge = ""
+            
             filterd_post = post_cleaner(conv[-1]["Post"])
             # filterd_post = replace_url(replace_alt(conv[-1]["Post"])).strip()
             # filterd_post = re.sub(r'\s+', ' ', filterd_post)
@@ -184,7 +190,7 @@ def main(args):
                     user=nick_name,
                     personality=personality,
                     profile=profile,
-                    pk=knowledge["DetailedKnowledge"],
+                    pk=potential_knowledge,
                 )
             else:
                 is_reply = True
@@ -195,7 +201,7 @@ def main(args):
                     poster=conv[-2]["User"],
                     personality=personality,
                     profile=profile,
-                    pk=knowledge["DetailedKnowledge"],
+                    pk=potential_knowledge,
                     ut=post_cleaner(json.dumps(conv[:-1]))
                 )
             dic = {
@@ -276,7 +282,7 @@ def main(args):
         save_dir = "social_bench"
     else:
         save_dir = "finetunes"
-
+        
     if args.psit_mode:
         prefix = "psit"
     else:
@@ -286,6 +292,12 @@ def main(args):
         postfix = "without_psychology"
     elif args.without_psychology_media:
         postfix = "without_psychology_media"
+    elif args.profile_ablation:
+        postfix = "profile_ablation"
+    elif args.personality_ablation:
+        postfix = "personality_ablation"
+    elif args.potential_ablation:
+        postfix = "potential_ablation"
     else:
         postfix = "propose"
         
@@ -319,6 +331,10 @@ if __name__ == '__main__':
     parser.add_argument('-wp', '--without_psychology', action='store_true', help='', default=False)
     parser.add_argument('-wpm', '--without_psychology_media', action='store_true', help='', default=False)
     parser.add_argument('-pm', '--psit_mode', action='store_true', help='', default=False)
+    parser.add_argument('-cpa', '--profile_ablation', action='store_true', help='', default=False)
+    parser.add_argument('-pta', '--personality_ablation', action='store_true', help='', default=False)
+    parser.add_argument('-pka', '--potential_ablation', action='store_true', help='', default=False)
+    
     args = parser.parse_args()
     main(args)
 

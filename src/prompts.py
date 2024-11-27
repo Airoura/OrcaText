@@ -320,7 +320,7 @@ I am {user}, based on my Posts, please help me simulate a personal profile.
     Example 5.1 'My Posts reflect my thoughts on various philosophical topics, and I'm always open to engaging in respectful and thought-provoking conversations.'.
 
 ### Posts
-{Posts}
+{posts}
 
 ### Response
 """
