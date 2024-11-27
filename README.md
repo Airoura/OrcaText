@@ -40,8 +40,11 @@ bash scripts/pipeline.sh
     We use [OrcaBench](https://github.com/Airoura/OrcaBench.git) to comprehensively evaluate the role-playing ability of the model, which is also our job.
 
 ## Datasets and Checkpoints
+data
 - [OneDrive](https://1drv.ms/u/c/b48c9b4212641cee/EZC9iEqgXZdNvUAaCbEuAlMBNdOQFj19b3sapiQePn1CjQ?e=sTw8jE)
-- [BaiduNetdisk](链接: https://pan.baidu.com/s/1UCFyTuKavmOQ_hNEwm2Dmg?pwd=zqfj)
+- [BaiduNetdisk](https://pan.baidu.com/s/1UCFyTuKavmOQ_hNEwm2Dmg?pwd=zqfj)
+
+We are preparing to release all checkpoints.
 
 ## Reference
 To cite this work please use:
